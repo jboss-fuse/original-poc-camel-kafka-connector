@@ -71,7 +71,9 @@ public class CamelSourceTask extends SourceTask {
                 }
             });
 
-            //TODO: Add option to configure pollingConsumerQueueSize, pollingConsumerBlockWhenFull and pollingConsumerBlockTimeout in LOCAL_URL
+            // TODO: Add option to configure pollingConsumerQueueSize,
+            // pollingConsumerBlockWhenFull and pollingConsumerBlockTimeout in
+            // LOCAL_URL
 
             Endpoint endpoint = camel.getEndpoint(LOCAL_URL);
             consumer = endpoint.createPollingConsumer();
@@ -92,7 +94,7 @@ public class CamelSourceTask extends SourceTask {
 
         Exchange exchange = consumer.receiveNoWait();
 
-        if(exchange==null){
+        if (exchange == null) {
             return null;
         }
 
@@ -103,7 +105,8 @@ public class CamelSourceTask extends SourceTask {
         log.info("\t message body: {}", exchange.getMessage().getBody());
         log.info("\t message headers: {}", exchange.getMessage().getHeaders());
 
-        //TODO: see if there is a better way to use sourcePartition and sourceOffset
+        // TODO: see if there is a better way to use sourcePartition and
+        // sourceOffset
         Map<String, String> sourcePartition = Collections.singletonMap("filename", exchange.getFromEndpoint().toString());
         Map<String, String> sourceOffset = Collections.singletonMap("position", exchange.getExchangeId());
 
@@ -127,7 +130,7 @@ public class CamelSourceTask extends SourceTask {
             throw new ConnectException("Failed to stop Camel context", e);
         }
     }
-    
+
     private void setHeaders(SourceRecord record, Exchange exchange) {
         if (!exchange.getMessage().hasHeaders()) {
             return;
@@ -138,47 +141,34 @@ public class CamelSourceTask extends SourceTask {
             Object value = entry.getValue();
 
             if (value instanceof String) {
-            	record.headers().addString(key, (String) value);
-            }
-            if (value instanceof Boolean) {
-            	record.headers().addBoolean(key, (boolean) value);
-            }
-            if (value instanceof Byte) {
-            	record.headers().addByte(key, (byte) value);
-            }
-            if (value instanceof Byte[]) {
-            	record.headers().addBytes(key, (byte[]) value);
-            }
-            if (value instanceof Date) {
-            	SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
-            	String convertedDate = sdf.format(value);
-            	record.headers().addString(key, (String) convertedDate);
-            }
-            if (value instanceof BigDecimal) {
-            	record.headers().addDecimal(key, (BigDecimal) value);
-            }
-            if (value instanceof Double) {
-            	record.headers().addDouble(key, (double) value);
-            }
-            if (value instanceof Float) {
-            	record.headers().addFloat(key, (float) value);
-            }
-            if (value instanceof Integer) {
-            	record.headers().addInt(key, (int) value);
-            }
-            if (value instanceof Long) {
-            	record.headers().addLong(key, (long) value);
-            }
-            if (value instanceof Short) {
-            	record.headers().addShort(key, (short) value);
-            }
-            if (value instanceof Time) {
-            	record.headers().addTime(key, (Time) value);
-            }
-            if (value instanceof Timestamp) {
-            	record.headers().addTimestamp(key, (Timestamp) value);
+                record.headers().addString(key, (String)value);
+            } else if (value instanceof Boolean) {
+                record.headers().addBoolean(key, (boolean)value);
+            } else if (value instanceof Byte) {
+                record.headers().addByte(key, (byte)value);
+            } else if (value instanceof Byte[]) {
+                record.headers().addBytes(key, (byte[])value);
+            } else if (value instanceof Date) {
+                SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+                String convertedDate = sdf.format(value);
+                record.headers().addString(key, (String)convertedDate);
+            } else if (value instanceof BigDecimal) {
+                record.headers().addDecimal(key, (BigDecimal)value);
+            } else if (value instanceof Double) {
+                record.headers().addDouble(key, (double)value);
+            } else if (value instanceof Float) {
+                record.headers().addFloat(key, (float)value);
+            } else if (value instanceof Integer) {
+                record.headers().addInt(key, (int)value);
+            } else if (value instanceof Long) {
+                record.headers().addLong(key, (long)value);
+            } else if (value instanceof Short) {
+                record.headers().addShort(key, (short)value);
+            } else if (value instanceof Time) {
+                record.headers().addTime(key, (Time)value);
+            } else if (value instanceof Timestamp) {
+                record.headers().addTimestamp(key, (Timestamp)value);
             }
         }
     }
 }
-
