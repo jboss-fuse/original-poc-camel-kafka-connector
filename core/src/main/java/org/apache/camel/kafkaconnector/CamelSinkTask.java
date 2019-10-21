@@ -23,6 +23,8 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.kafkaconnector.utils.CamelMainSupport;
+import org.apache.camel.kafkaconnector.utils.CamelStartupHelper;
+import org.apache.camel.kafkaconnector.utils.CamelStartupHelperUtils;
 import org.apache.camel.support.DefaultExchange;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.errors.ConnectException;
@@ -50,6 +52,7 @@ public class CamelSinkTask extends SinkTask {
         return new CamelSinkConnector().version();
     }
 
+
     @Override
     public void start(Map<String, String> props) {
         try {
@@ -58,7 +61,10 @@ public class CamelSinkTask extends SinkTask {
             final String remoteUrl = config.getString(CamelSinkConnectorConfig.CAMEL_SINK_URL_CONF);
             final String marshaller = config.getString(CamelSinkConnectorConfig.CAMEL_SINK_MARSHAL_CONF);
 
-            cms = new CamelMainSupport(props, LOCAL_URL, remoteUrl, marshaller, null);
+            final String helperClass =  config.getString(CamelSinkConnectorConfig.CAMEL_SINK_STARTUP_HELPER_CONF);
+            final CamelStartupHelper startupHelper = CamelStartupHelperUtils.instantiateHelper(helperClass, props);
+
+            cms = new CamelMainSupport(props, LOCAL_URL, remoteUrl, marshaller, null, startupHelper);
 
             producer = cms.createProducerTemplate();
 
@@ -94,7 +100,10 @@ public class CamelSinkTask extends SinkTask {
     public void stop() {
         try {
             log.info("Stopping CamelSinkTask connector task");
-            cms.stop();
+
+            if (cms != null) {
+                cms.stop();
+            }
         } catch (Exception e) {
             throw new ConnectException("Failed to stop Camel context", e);
         } finally {

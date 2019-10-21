@@ -47,6 +47,9 @@ public class CamelSourceConnectorConfig extends AbstractConfig {
     public static final Boolean CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_WHEN_FULL_DEFAULT = true;
     public static final String CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_WHEN_FULL_CONF = "camel.source.pollingConsumerBlockWhenFull";
 
+    public static final String CAMEL_SOURCE_STARTUP_HELPER_DEFAULT = null;
+    public static final String CAMEL_SOURCE_STARTUP_HELPER_CONF = "camel.source.startup.helper";
+
     private static final String CAMEL_SOURCE_URL_DOC = "The camel url to configure the source";
     private static final String CAMEL_SOURCE_UNMARSHAL_DOC = "The camel dataformat name to use to unmarshal data from the source";
     private static final String TOPIC_DOC = "The topic to publish data to";
@@ -55,6 +58,7 @@ public class CamelSourceConnectorConfig extends AbstractConfig {
     private static final String CAMEL_SOURCE_POLLING_CONSUMER_QUEUE_SIZE_DOC = "The queue size for the internal hand-off queue between the polling consumer, and producers sending data into the queue.";
     private static final String CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_TIMEOUT_DOC = "To use a timeout (in milliseconds) when the producer is blocked if the internal queue is full. If the value is 0 or negative then no timeout is in use.";
     private static final String CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_WHEN_FULL_DOC = " Whether to block any producer if the internal queue is full.";
+    private static final String CAMEL_SOURCE_STARTUP_HELPER_DOC = "A startup helper class that can be used to configure the camel source main instance";
 
 
     public CamelSourceConnectorConfig(ConfigDef config, Map<String, String> parsedConfig) {
@@ -74,6 +78,7 @@ public class CamelSourceConnectorConfig extends AbstractConfig {
                 .define(CAMEL_SOURCE_MAX_POLL_DURATION_CONF, Type.LONG, CAMEL_SOURCE_MAX_POLL_DURATION_DEFAULT, Importance.MEDIUM, CAMEL_SOURCE_MAX_POLL_DURATION_DOC)
                 .define(CAMEL_SOURCE_POLLING_CONSUMER_QUEUE_SIZE_CONF, Type.LONG, CAMEL_SOURCE_POLLING_CONSUMER_QUEUE_SIZE_DEFAULT, Importance.MEDIUM, CAMEL_SOURCE_POLLING_CONSUMER_QUEUE_SIZE_DOC)
                 .define(CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_TIMEOUT_CONF, Type.LONG, CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_TIMEOUT_DEFAULT, Importance.MEDIUM, CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_TIMEOUT_DOC)
-                .define(CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_WHEN_FULL_CONF, Type.BOOLEAN, CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_WHEN_FULL_DEFAULT, Importance.MEDIUM, CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_WHEN_FULL_DOC);
+                .define(CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_WHEN_FULL_CONF, Type.BOOLEAN, CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_WHEN_FULL_DEFAULT, Importance.MEDIUM, CAMEL_SOURCE_POLLING_CONSUMER_BLOCK_WHEN_FULL_DOC)
+                .define(CAMEL_SOURCE_STARTUP_HELPER_CONF, Type.STRING, CAMEL_SOURCE_STARTUP_HELPER_DEFAULT, Importance.LOW, CAMEL_SOURCE_STARTUP_HELPER_DOC);
     }
 }

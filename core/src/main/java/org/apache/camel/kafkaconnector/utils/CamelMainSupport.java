@@ -45,15 +45,16 @@ public class CamelMainSupport {
 
     private Main camelMain;
     private CamelContext camel;
+    private final CamelStartupHelper startupHelper;
 
     private final ExecutorService exService = Executors.newSingleThreadExecutor();
     private final CountDownLatch startFinishedSignal = new CountDownLatch(1);
 
-    public CamelMainSupport(Map<String, String> props, String fromUrl, String toUrl, String marshal, String unmarshal) throws Exception {
-        this(props, fromUrl, toUrl, marshal, unmarshal, new DefaultCamelContext());
+    public CamelMainSupport(Map<String, String> props, String fromUrl, String toUrl, String marshal, String unmarshal, CamelStartupHelper startupHelper) throws Exception {
+        this(props, fromUrl, toUrl, marshal, unmarshal, startupHelper, new DefaultCamelContext());
     }
 
-    public CamelMainSupport(Map<String, String> props, String fromUrl, String toUrl, String marshal, String unmarshal, CamelContext camelContext) throws Exception {
+    public CamelMainSupport(Map<String, String> props, String fromUrl, String toUrl, String marshal, String unmarshal, CamelStartupHelper startupHelper, CamelContext camelContext) throws Exception {
         this.camel = camelContext; //new DefaultCamelContext();
         camelMain = new Main() {
             @Override
@@ -104,10 +105,16 @@ public class CamelMainSupport {
                 rd.to(toUrl);
             }
         });
+
+        this.startupHelper = startupHelper;
     }
 
     public void start() throws Exception {
         log.info("Starting CamelContext");
+
+        if (startupHelper != null) {
+            startupHelper.onStart(camel);
+        }
 
         CamelContextStarter starter = new CamelContextStarter();
         exService.execute(starter);

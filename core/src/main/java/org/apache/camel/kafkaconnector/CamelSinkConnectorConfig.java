@@ -29,8 +29,12 @@ public class CamelSinkConnectorConfig extends AbstractConfig {
     public static final String CAMEL_SINK_MARSHAL_DEFAULT = null;
     public static final String CAMEL_SINK_MARSHAL_CONF = "camel.sink.marshal";
 
+    public static final String CAMEL_SINK_STARTUP_HELPER_DEFAULT = null;
+    public static final String CAMEL_SINK_STARTUP_HELPER_CONF = "camel.sink.startup.helper";
+
     private static final String CAMEL_SINK_URL_DOC = "The camel url to configure the destination";
     private static final String CAMEL_SINK_MARSHAL_DOC = "The camel dataformat name to use to marshal data to the destination";
+    private static final String CAMEL_SINK_STARTUP_HELPER_DOC = "A startup helper class that can be used to configure the camel sink main instance";
 
     public CamelSinkConnectorConfig(ConfigDef config, Map<String, String> parsedConfig) {
         super(config, parsedConfig);
@@ -43,6 +47,7 @@ public class CamelSinkConnectorConfig extends AbstractConfig {
     public static ConfigDef conf() {
         return new ConfigDef()
                 .define(CAMEL_SINK_URL_CONF, Type.STRING, CAMEL_SINK_URL_DEFAULT, Importance.HIGH, CAMEL_SINK_URL_DOC)
-                .define(CAMEL_SINK_MARSHAL_CONF, Type.STRING, CAMEL_SINK_MARSHAL_DEFAULT, Importance.HIGH, CAMEL_SINK_MARSHAL_DOC);
+                .define(CAMEL_SINK_MARSHAL_CONF, Type.STRING, CAMEL_SINK_MARSHAL_DEFAULT, Importance.HIGH, CAMEL_SINK_MARSHAL_DOC)
+                .define(CAMEL_SINK_STARTUP_HELPER_CONF, Type.STRING, CAMEL_SINK_STARTUP_HELPER_DEFAULT, Importance.LOW, CAMEL_SINK_STARTUP_HELPER_DOC);
     }
 }

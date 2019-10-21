@@ -30,6 +30,8 @@ import org.apache.camel.Endpoint;
 import org.apache.camel.Exchange;
 import org.apache.camel.PollingConsumer;
 import org.apache.camel.kafkaconnector.utils.CamelMainSupport;
+import org.apache.camel.kafkaconnector.utils.CamelStartupHelper;
+import org.apache.camel.kafkaconnector.utils.CamelStartupHelperUtils;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.source.SourceRecord;
@@ -71,7 +73,10 @@ public class CamelSourceTask extends SourceTask {
 
             String localUrl = getLocalUrlWithPollingOptions(config);
 
-            cms = new CamelMainSupport(props, remoteUrl, localUrl, null, unmarshaller);
+            final String helperClass =  config.getString(CamelSourceConnectorConfig.CAMEL_SOURCE_STARTUP_HELPER_CONF);
+            final CamelStartupHelper startupHelper = CamelStartupHelperUtils.instantiateHelper(helperClass, props);
+
+            cms = new CamelMainSupport(props, remoteUrl, localUrl, null, unmarshaller, startupHelper);
 
             Endpoint endpoint = cms.getEndpoint(localUrl);
             consumer = endpoint.createPollingConsumer();
