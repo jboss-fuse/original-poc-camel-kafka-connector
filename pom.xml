@@ -3,7 +3,7 @@
 
     <groupId>org.apache.camel.kafkaconnector</groupId>
     <artifactId>camel-kafka-connector-aggregator</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1.fuse-800004</version>
     <packaging>pom</packaging>
 
     <name>Aggregator module for the Camel-Kafka-Connector project</name>
@@ -18,5 +18,19 @@
         <module>core</module>
         <module>tests</module>
     </modules>
+
+    <distributionManagement>
+        <repository>
+            <id>jboss-releases-repository</id>
+            <name>JBoss Releases Repository</name>
+            <url>https://repository.jboss.org/nexus/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>jboss-snapshots-repository</id>
+            <name>JBoss Snapshots Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 
 </project>
